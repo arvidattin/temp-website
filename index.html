@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Den Första Nyckeln</title>
+  <meta name="description" content="Ni har hittat den första nyckeln. Men vissa skatter hittas först när tiden är mogen.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Dark ambient background layers -->
+  <div class="bg-gradient"></div>
+  <canvas id="ambientCanvas"></canvas>
+  <div class="vignette"></div>
+
+  <main class="container">
+    <div class="content-wrapper">
+      <h1 class="main-quote">
+        Ni har hittat den första nyckeln. Men vissa skatter hittas först när tiden är mogen.
+      </h1>
+
+      <div class="countdown-container" id="countdown">
+        <div class="timer-unit">
+          <div class="card-wrapper">
+            <span class="number" id="days">00</span>
+          </div>
+        </div>
+
+        <div class="colon">:</div>
+
+        <div class="timer-unit">
+          <div class="card-wrapper">
+            <span class="number" id="hours">00</span>
+          </div>
+        </div>
+
+        <div class="colon">:</div>
+
+        <div class="timer-unit">
+          <div class="card-wrapper">
+            <span class="number" id="minutes">00</span>
+          </div>
+        </div>
+
+        <div class="colon">:</div>
+
+        <div class="timer-unit">
+          <div class="card-wrapper">
+            <span class="number" id="seconds">00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

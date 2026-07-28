@@ -1,0 +1,16 @@
+{
+  "name": "countdown-website",
+  "version": "1.0.0",
+  "description": "Blank countdown website to 25/10/2026",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve . -l 3000",
+    "dev": "npx serve . -l 3000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}
