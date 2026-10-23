@@ -19,7 +19,8 @@
   <canvas id="ambientCanvas"></canvas>
   <div class="vignette"></div>
 
-  <main class="container">
+  <!-- COUNTDOWN SCREEN -->
+  <main class="container" id="countdownScreen">
     <div class="content-wrapper">
       <h1 class="main-quote">
         Ni har hittat den första nyckeln. Men vissa skatter hittas först när tiden är mogen.
@@ -58,6 +59,37 @@
       </div>
     </div>
   </main>
+
+  <!-- REVEAL SCREEN (hidden until countdown ends) -->
+  <div id="revealScreen" class="reveal-screen hidden">
+    <!-- Full-screen map image with pan/zoom -->
+    <div id="imageViewport" class="image-viewport">
+      <img id="mainImage" src="images/all.png" alt="Kartan" draggable="false" />
+    </div>
+
+
+    <!-- Key icon – restore popup -->
+    <button id="keyToggleBtn" class="key-toggle-btn" title="Visa/dölj nyckeln" aria-label="Visa nyckeln">
+      <!-- SVG key icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="7.5" cy="15.5" r="4.5"/>
+        <path d="M21 2l-9.6 9.6"/>
+        <path d="M15.5 7.5l3 3L22 7l-3-3"/>
+      </svg>
+    </button>
+
+    <!-- Key popup panel -->
+    <div id="keyPopup" class="key-popup">
+      <div class="key-popup-header">
+        <span class="key-popup-title">Nyckeln</span>
+        <button id="closeKeyPopup" class="key-popup-close" title="Minimera" aria-label="Minimera nyckeln">&#8212;</button>
+      </div>
+      <div class="key-popup-body">
+        <img id="keyImage" src="images/key.jpg" alt="Nyckeln" draggable="false" />
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

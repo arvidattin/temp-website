@@ -27,7 +27,7 @@
 html, body {
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   background-color: var(--bg-black);
   color: var(--text-primary);
   font-family: var(--font-sans);
@@ -116,7 +116,7 @@ body {
 }
 
 /* ==========================================================================
-   Countdown Timer (Slightly Refined & Compact on Fullscreen)
+   Countdown Timer
    ========================================================================== */
 .countdown-container {
   display: flex;
@@ -124,7 +124,7 @@ body {
   justify-content: center;
   gap: 0.9rem;
   width: 100%;
-  pointer-events: none; /* Prevents any interaction */
+  pointer-events: none;
 }
 
 .timer-unit {
@@ -143,7 +143,7 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-  pointer-events: none; /* Strictly no hover or click state */
+  pointer-events: none;
 }
 
 .number {
@@ -164,7 +164,189 @@ body {
   margin-top: -0.3rem;
 }
 
-/* Responsive Layout */
+/* ==========================================================================
+   Utility
+   ========================================================================== */
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   REVEAL SCREEN
+   ========================================================================== */
+.reveal-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background-color: var(--bg-black);
+  overflow: hidden;
+  /* Fade-in on reveal */
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.reveal-screen.visible {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Image Viewport – browser-native zoom, perfectly centred
+   -------------------------------------------------------------------------- */
+.image-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.image-viewport img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  max-width: none;
+  max-height: none;
+  width: auto;
+  height: auto;
+  transform-origin: 0 0;
+  will-change: transform;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Key Toggle Button (corner icon)
+   -------------------------------------------------------------------------- */
+.key-toggle-btn {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 200;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 215, 90, 0.3);
+  background: rgba(12, 12, 14, 0.85);
+  color: #fbbf24;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 0 0 rgba(251,191,36,0);
+}
+
+.key-toggle-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.key-toggle-btn:hover {
+  background: rgba(40, 40, 20, 0.95);
+  border-color: rgba(255, 215, 90, 0.6);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7), 0 0 16px rgba(251,191,36,0.25);
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.key-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* --------------------------------------------------------------------------
+   Key Popup Panel
+   -------------------------------------------------------------------------- */
+.key-popup {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 2rem;
+  z-index: 300;
+  width: min(840px, 90vw);
+  max-height: min(90vh, 1000px);
+  background: rgba(10, 10, 12, 0.92);
+  border: 1px solid rgba(255, 215, 90, 0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 32px 80px rgba(0,0,0,0.85),
+    0 0 0 1px rgba(255,215,90,0.07) inset;
+
+  /* Animation */
+  transform-origin: bottom left;
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.25s ease;
+}
+
+.key-popup.minimized {
+  transform: scale(0.3) translateY(40px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.key-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255,215,90,0.1);
+  background: rgba(255,215,90,0.04);
+}
+
+.key-popup-title {
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: rgba(255,215,90,0.85);
+  letter-spacing: 0.05em;
+}
+
+.key-popup-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 1rem;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.key-popup-close:hover {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.8);
+}
+
+.key-popup-body {
+  overflow: auto;
+  max-height: calc(min(90vh, 1000px) - 50px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #080808;
+}
+
+.key-popup-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* ==========================================================================
+   Responsive Layout
+   ========================================================================== */
 @media (max-width: 768px) {
   .content-wrapper {
     gap: 1.5rem;
@@ -205,5 +387,27 @@ body {
 
   .colon {
     font-size: 1.5rem;
+  }
+
+  .key-popup {
+    width: 92vw;
+    left: 50%;
+    transform: translateX(-50%) scale(1);
+    transform-origin: bottom center;
+    bottom: 5rem;
+  }
+
+  .key-popup.minimized {
+    transform: translateX(-50%) scale(0.2) translateY(60px);
+    opacity: 0;
+  }
+
+  .key-toggle-btn {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .key-toggle-btn:hover {
+    transform: translateX(-50%) scale(1.1);
   }
 }
