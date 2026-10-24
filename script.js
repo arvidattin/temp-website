@@ -1,94 +1,31 @@
 /* ============================================================
-   CONFIG
+   REMOVE COUNTDOWN GATE
    ============================================================ */
+const countdownScreen = document.getElementById('countdownScreen');
+const revealScreen = document.getElementById('revealScreen');
+const mainImage = document.getElementById('mainImage');
 
-// Real target date: 25 October 2026, midnight
-const REAL_TARGET = new Date('2026-10-25T00:00:00').getTime();
+function showRevealScreen() {
+  countdownScreen.classList.add('hidden');
+  revealScreen.classList.remove('hidden');
+  void revealScreen.offsetWidth;
+  revealScreen.classList.add('visible');
 
-// TEST MODE: set TEST_MODE = true to trigger reveal after 20 seconds.
-// Set to false for production.
-const TEST_MODE = false;
+  if (mainImage.complete) initImageViewer();
+  else mainImage.addEventListener('load', initImageViewer, { once: true });
 
-// When TEST_MODE is true the countdown starts from NOW + 10 seconds.
-const TARGET_DATE = TEST_MODE
-  ? Date.now() + 10 * 1000
-  : REAL_TARGET;
-
-/* ============================================================
-   COUNTDOWN
-   ============================================================ */
-const daysEl = document.getElementById('days');
-const hoursEl = document.getElementById('hours');
-const minutesEl = document.getElementById('minutes');
-const secondsEl = document.getElementById('seconds');
-
-function formatTime(val, digits = 2) {
-  return String(Math.max(0, val)).padStart(digits, '0');
+  setTimeout(() => {
+    document.getElementById('keyPopup').classList.remove('minimized');
+  }, 200);
 }
 
-let revealTriggered = false;
-
-function updateCountdown() {
-  const now = Date.now();
-  const distance = TARGET_DATE - now;
-
-  if (distance <= 0) {
-    daysEl.textContent = '00';
-    hoursEl.textContent = '00';
-    minutesEl.textContent = '00';
-    secondsEl.textContent = '00';
-    if (!revealTriggered) {
-      revealTriggered = true;
-      triggerReveal();
-    }
-    return;
-  }
-
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  daysEl.textContent = formatTime(days);
-  hoursEl.textContent = formatTime(hours);
-  minutesEl.textContent = formatTime(minutes);
-  secondsEl.textContent = formatTime(seconds);
-}
-
-updateCountdown();
-const countdownInterval = setInterval(updateCountdown, 1000);
+showRevealScreen();
 
 /* ============================================================
    REVEAL
    ============================================================ */
 function triggerReveal() {
-  clearInterval(countdownInterval);
-
-  const countdownScreen = document.getElementById('countdownScreen');
-  const revealScreen = document.getElementById('revealScreen');
-
-  // Fade out countdown
-  countdownScreen.style.transition = 'opacity 1s ease';
-  countdownScreen.style.opacity = '0';
-
-  setTimeout(() => {
-    countdownScreen.classList.add('hidden');
-
-    // Show & fade in reveal screen
-    revealScreen.classList.remove('hidden');
-    void revealScreen.offsetWidth; // force reflow
-    revealScreen.classList.add('visible');
-
-    // Init image zoom/pan once reveal is visible
-    const img = document.getElementById('mainImage');
-    if (img.complete) initImageViewer();
-    else img.addEventListener('load', initImageViewer, { once: true });
-
-    // Show key popup after a short dramatic delay
-    setTimeout(() => {
-      document.getElementById('keyPopup').classList.remove('minimized');
-    }, 800);
-  }, 1100);
+  showRevealScreen();
 }
 
 /* ============================================================
